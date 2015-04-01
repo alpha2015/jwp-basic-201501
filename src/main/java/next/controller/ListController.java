@@ -11,15 +11,15 @@ import core.mvc.AbstractController;
 import core.mvc.ModelAndView;
 
 public class ListController extends AbstractController {
-	private QuestionDao questionDao = new QuestionDao();
-	private List<Question> questions;
 	
 	@Override
 	public ModelAndView execute(HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
+		QuestionDao questionDao = new QuestionDao();
+		List<Question> questions;
 		questions = questionDao.findAll();
 		
-		ModelAndView mav = jstlView("list.jsp");
+		ModelAndView mav = jstlView("/list.jsp");
 		mav.addObject("questions", questions);
 		return mav;
 	}

@@ -9,32 +9,33 @@ import next.dao.AnswerDao;
 import next.dao.QuestionDao;
 import next.model.Answer;
 import next.model.Question;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import core.mvc.AbstractController;
 import core.mvc.ModelAndView;
 import core.utils.ServletRequestUtils;
 
-public class ShowController extends AbstractController {
-	private static final Logger logger = LoggerFactory.getLogger(ShowController.class);
-	
+public class AddAnswerController extends AbstractController {
+
 	@Override
-	public ModelAndView execute(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public ModelAndView execute(HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 		QuestionDao questionDao = new QuestionDao();
 		AnswerDao answerDao = new AnswerDao();
 		Question question;
 		List<Answer> answers;
 		
+		String writer = ServletRequestUtils.getStringParameter(request, "writer");
+		String contents = ServletRequestUtils.getStringParameter(request, "contents");
 		long questionId = ServletRequestUtils.getRequiredLongParameter(request, "questionId");
-		logger.debug("questionId : {}", questionId);
+		
+		answerDao.insert(new Answer(writer, contents, questionId));
 		question = questionDao.findById(questionId);
+		question.setCountOfComment(question.getCountOfComment() + 1);
+		questionDao.updateCommentCount(question);
 		answers = answerDao.findAllByQuestionId(questionId);
-		ModelAndView mav = jstlView("/show.jsp");
+		ModelAndView mav = jsonView();
 		mav.addObject("question", question);
 		mav.addObject("answers", answers);
 		return mav;
 	}
+
 }
