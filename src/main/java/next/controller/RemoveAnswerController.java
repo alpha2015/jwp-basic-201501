@@ -18,24 +18,24 @@ public class RemoveAnswerController extends AbstractController {
 	@Override
 	public ModelAndView execute(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-
 		QuestionDao questionDao = new QuestionDao();
 		AnswerDao answerDao = new AnswerDao();
 		Question question;
 		List<Answer> answers;
+		Answer answer;
 		
-		//answerid 추가할것 겟파라미터로 
-		
-		String writer = ServletRequestUtils.getStringParameter(request, "writer");
-		String contents = ServletRequestUtils.getStringParameter(request, "contents");
-		long questionId = ServletRequestUtils.getRequiredLongParameter(request, "questionId");
-		
-		answerDao.insert(new Answer(writer, contents, questionId));
+		long answerId = ServletRequestUtils.getRequiredLongParameter(request, "answerId");
+		answer = answerDao.findByAnswerId(answerId);
+		long questionId = answer.getQuestionId();
+		answerDao.remove(answerId);
 		question = questionDao.findById(questionId);
-		question.setCountOfComment(question.getCountOfComment() + 1);
+		question.setCountOfComment(question.getCountOfComment() - 1);
 		questionDao.updateCommentCount(question);
 		answers = answerDao.findAllByQuestionId(questionId);
 		ModelAndView mav = jsonView();
+		
+		System.out.println("answerId : " + answerId);
+		System.out.println("questionId : " + questionId);
 		mav.addObject("question", question);
 		mav.addObject("answers", answers);
 		return mav;

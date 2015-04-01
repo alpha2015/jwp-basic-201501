@@ -240,6 +240,11 @@ h3 span {
     -moz-border-radius: 10px;
 }
 
+.comment a {
+	position: relative;
+	left: 95%;
+}
+
 .comment .about {
     text-indent: -999em;
     display: block;

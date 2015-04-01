@@ -52,11 +52,11 @@
 		</div>
 
 		<!-- comments start -->
-		<div class="comments">
+		<div class="comments" ">
 			<h3>댓글 수 : ${question.countOfComment}</h3>
 			<c:if test="${not empty answers }">
 				<c:forEach var="i" begin="0" end="${question.countOfComment-1}">
-					<div class="comment">
+					<div id="${answers[i].answerId }" class="comment">
 						<div class="comment-metadata">
 							<span class="comment-author">${answers[i].writer }</span> <span
 								class="comment-date"> ${answers[i].createdDate } </span>
@@ -65,8 +65,8 @@
 							<div class="about">내용 :</div>
 							${answers[i].contents }
 						</div>
-						<div>
-							<a href="#" value="${answer[i].answerId}">삭제</a>
+						<div class="comment-btn">
+							<a href="#" value="${answers[i].answerId}">삭제</a>
 						</div>
 					</div>
 				</c:forEach>
