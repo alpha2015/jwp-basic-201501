@@ -14,12 +14,12 @@ import core.mvc.ModelAndView;
 import core.utils.ServletRequestUtils;
 
 public class AddAnswerController extends AbstractController {
+	QuestionDao questionDao = QuestionDao.getInstance();
+	AnswerDao answerDao = AnswerDao.getInstance();
 
 	@Override
 	public ModelAndView execute(HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-		QuestionDao questionDao = new QuestionDao();
-		AnswerDao answerDao = new AnswerDao();
 		Question question;
 		List<Answer> answers;
 		

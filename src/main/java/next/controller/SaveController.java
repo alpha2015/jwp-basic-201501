@@ -12,11 +12,11 @@ import core.mvc.ModelAndView;
 import core.utils.ServletRequestUtils;
 
 public class SaveController extends AbstractController {
+	QuestionDao questionDao = QuestionDao.getInstance();
 	
 	@Override
 	public ModelAndView execute(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		QuestionDao questionDao = new QuestionDao();
 		List<Question> questions;
 		
 		String writer = ServletRequestUtils.getStringParameter(request, "writer");
