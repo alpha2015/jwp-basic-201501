@@ -24,19 +24,28 @@
 3. 만약, 해당 서블릿 인스턴스가 없다면 (최초 접근하는 시점) 서블릿 클래스를 로드하고 인스턴스를 생성한다. 이때 처음 init() 메소드가 호출되고 service()를 호출한다. 서버 시작 후 최초 접속이 아니라면 이미 존재하는 해당 서블릿 인스턴스에 service() 메소드를 호출한다.
    -. 이때 service() 메소드에 request와 response 객체를 인자로 전달한다. 
 
-4. 
+4. findController 메소드에 의해 매핑된 url 주소에 맞는 controller의 execute 메소드를 실행한다.
 
+5. /list.jsp로 mapping 되었기때문에 listController의 execute가 호출된다.  listController에서 구현된 모델과 뷰(jstlView-뷰 , Questions-모델)가 mav에 담긴다.
 
-
-
-서블릿 인스턴스가 존재하지 않는다면..
-클래스 로더는 서블릿 클래스를 로드한다.
-서블릿 클래스의 인스턴스를 생성한다.
-서블릿 클래스의 init() 메써드를 호출함으로서 초기화를 진행한다. 서블릿의 초기화 과정에 대해서는 Initializing a Servlet 문서를 참고하기 바란다.
-서블릿 인스턴스가 존재한다면..
-서블릿의 service() 메써드에 request, response 객체를 전달한다. 서블릿의 service() 메써드에 대해서는 Writing Service Methods 문서를 참고하기 바란다.
-
-
+6. render 메소드 호출시 listContoller에서 해당 url로 생성된 view로 forward 를 한다.
+   이때 인자로 받은 모델, req, resp를 에서 모델을 전달한다.
+   
+   
 #### 8. ListController와 ShowController가 멀티 쓰레드 상황에서 문제가 발생하는 이유에 대해 설명하라.
 * 
+
+클래스 내에 전역으로 선언된 필드 값들때문에 발생할 수 있는 문제들이 있다.
+	private Question question;
+	private List<Answer> answers;
+	private List<Question> questions;
+	
+해당 값들은 멀티 쓰레드 상황에서 쓰레드들이 동시에 접근할 수가 있다.
+
+병렬적으로 처리되는 문제때문에 하나의 쓰레드가 작업을 수행중에 다른 쓰레드에 의해서 자원(필드값)이 참조 되거나
+
+변경되기 때문에 해당 필드값들을 메소드내에 지역변수로 관리하여 쓰레드 들끼리 참조가 불가능 하도록 해야한다.
+
+
+
 
