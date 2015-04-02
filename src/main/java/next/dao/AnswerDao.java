@@ -17,7 +17,7 @@ public class AnswerDao {
 	}
 
 	public void insert(Answer answer) {
-		JdbcTemplate jdbcTemplate = new JdbcTemplate();
+		JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
 		String sql = "INSERT INTO ANSWERS (writer, contents, createdDate, questionId) VALUES (?, ?, ?, ?)";
 		jdbcTemplate.update(sql, answer.getWriter(),
 				answer.getContents(),
@@ -26,7 +26,7 @@ public class AnswerDao {
 	}
 
 	public List<Answer> findAllByQuestionId(long questionId) {
-		JdbcTemplate jdbcTemplate = new JdbcTemplate();
+		JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
 		String sql = "SELECT answerId, writer, contents, createdDate FROM ANSWERS WHERE questionId = ? "
 				+ "order by answerId desc";
 		
@@ -46,7 +46,7 @@ public class AnswerDao {
 	}
 
 	public Answer findByAnswerId(long answerId) {
-		JdbcTemplate jdbcTemplate = new JdbcTemplate();
+		JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
 		String sql = "SELECT answerId, writer, contents, createdDate, questionId FROM ANSWERS WHERE answerId = ?";
 
 		RowMapper<Answer> rm = new RowMapper<Answer>() {
@@ -68,7 +68,7 @@ public class AnswerDao {
 	}
 
 	public void remove(long answerId) {
-		JdbcTemplate jdbcTemplate = new JdbcTemplate();
+		JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
 		String sql = "DELETE FROM ANSWERS WHERE answerId = ?";
 		jdbcTemplate.update(sql, answerId);		
 	}
