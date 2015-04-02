@@ -2,20 +2,12 @@ package next.model;
 
 import java.util.Date;
 
-import com.google.gson.annotations.Expose;
-
 public class Question {
-	@Expose
 	private long questionId;
-	@Expose
 	private String writer;
-	@Expose
 	private String title;
-	@Expose
 	private String contents;
-	@Expose
 	private Date createdDate;
-	@Expose
 	private int countOfComment;
 	
 	public Question(String writer, String title, String contents) {
